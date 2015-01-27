@@ -1,11 +1,6 @@
 #include "vlcmex.h"
-#include <string>
-using std::string;
 
-vlc_instance_list vlc_instances;
-vlc_player_list vlc_players;
-
-bool check_args(int nrhs, int n)
+bool check_args(int nrhs, int m, int n)
 {
     if (nrhs > n) {
         mexErrMsgIdAndTxt(("VLC:"
@@ -13,7 +8,7 @@ bool check_args(int nrhs, int n)
                            + ":tooManyArgs").c_str(),
                           "Too many arguments");
         return false;
-    } else if (nrhs < n) {
+    } else if (nrhs < m) {
         mexErrMsgIdAndTxt(("VLC:"
                            + string(mexFunctionName())
                            + ":tooFewArgs").c_str(),
@@ -21,6 +16,33 @@ bool check_args(int nrhs, int n)
         return false;
     }
     return true;
+}
+
+bool check_args(int nrhs, int n)
+{
+    return check_args(nrhs, n, n);
+}
+
+string arr2str(const mxArray *arr)
+{
+    if (mxGetM(arr) != 1) {
+        mexErrMsgIdAndTxt(("VLC:"
+                           + string(mexFunctionName())
+                           + ":inputWrongShape").c_str(), 
+                          "Input string must be a row vector.");
+        return "";
+    }
+
+    char *str = (char*)mxCalloc(mxGetN(arr)+1, sizeof(char));
+    if (mxGetString(arr, str, mxGetN(arr)+1)) {
+        mexWarnMsgIdAndTxt(("VLC:"
+                           + string(mexFunctionName())
+                           + ":stringError").c_str(),
+                          "Error extracting filename argument.");
+    }
+    string s = str;
+    mxFree(str);
+    return s;
 }
 
 void* unpack_pointer_INTERNAL(const mxArray *arr)
