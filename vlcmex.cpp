@@ -2,6 +2,9 @@
 #include <string>
 using std::string;
 
+vlc_instance_list vlc_instances;
+vlc_player_list vlc_players;
+
 bool check_args(int nrhs, int n)
 {
     if (nrhs > n) {

@@ -3,6 +3,15 @@
 
 #include <mex.h>
 #include <vlc/vlc.h>
+#include <list>
+#include <algorithm>
+using std::list;
+using std::find;
+
+typedef list<libvlc_instance_t*> vlc_instance_list;
+typedef list<libvlc_media_player_t*> vlc_player_list;
+extern vlc_instance_list vlc_instances;
+extern vlc_player_list vlc_players;
 
 bool check_args(int nrhs, int n);
 
