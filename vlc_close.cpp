@@ -1,20 +1,10 @@
-#include <mex.h>
-#include <vlc/vlc.h>
+#include "vlcmex.h"
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    switch (nrhs) {
-        case 0:
-            mexErrMsgIdAndTxt("VLC:vlc_close:tooFewArgs", "Not enough arguments");
-            return;
-        case 1:
-            break;
-        default:
-            mexErrMsgIdAndTxt("VLC:vlc_close:tooManyArgs", "Too many arguments");
-            return;
-    }
+    if (!check_args(nrhs, 1)) return;
 
-    libvlc_media_player_t *player = *((libvlc_media_player_t**)(mxGetPr(prhs[0])));
+    unpack_pointer(libvlc_media_player_t, player, prhs[0]);
 
     libvlc_media_player_release(player);
 }

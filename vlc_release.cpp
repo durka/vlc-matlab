@@ -1,20 +1,10 @@
-#include <mex.h>
-#include <vlc/vlc.h>
+#include "vlcmex.h"
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-    switch (nrhs) {
-        case 0:
-            mexErrMsgIdAndTxt("VLC:vlc_release:tooFewArgs", "Not enough arguments");
-            return;
-        case 1:
-            break;
-        default:
-            mexErrMsgIdAndTxt("VLC:vlc_release:tooManyArgs", "Too many arguments");
-            return;
-    }
+    if (!check_args(nrhs, 1)) return;
 
-    libvlc_instance_t *vlc = *((libvlc_instance_t**)(mxGetPr(prhs[0])));
+    unpack_pointer(libvlc_instance_t, vlc, prhs[0]);
 
     libvlc_release(vlc);
 }
