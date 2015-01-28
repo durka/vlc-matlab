@@ -56,3 +56,17 @@ void pack_pointer_INTERNAL(mxArray **arr, void *p)
     *((void**)(mxGetPr(*arr))) = p;
 }
 
+void pack_number_INTERNAL(mxArray **arr, double d)
+{
+    *arr = mxCreateDoubleMatrix(1, 1, mxREAL);
+    mxGetPr(*arr)[0] = d;
+}
+
+void pack_number_INTERNAL(mxArray **arr, vector<double> vd)
+{
+    *arr = mxCreateDoubleMatrix(1, vd.size(), mxREAL);
+    for (int i = 0; i < vd.size(); ++i) {
+        mxGetPr(*arr)[i] = vd[i];
+    }
+}
+
