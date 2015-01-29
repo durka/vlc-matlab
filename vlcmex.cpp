@@ -6,13 +6,13 @@ bool check_args(int nrhs, int m, int n)
         mexErrMsgIdAndTxt(("VLC:"
                            + string(mexFunctionName())
                            + ":tooManyArgs").c_str(),
-                          "Too many arguments");
+                          "Too many arguments: %d for %d", nrhs, n);
         return false;
     } else if (nrhs < m) {
         mexErrMsgIdAndTxt(("VLC:"
                            + string(mexFunctionName())
                            + ":tooFewArgs").c_str(),
-                          "Not enough arguments");
+                          "Not enough arguments: %d for %d", nrhs, m);
         return false;
     }
     return true;

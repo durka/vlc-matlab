@@ -10,6 +10,8 @@ function varargout = vlc_wrapper(task, varargin)
              'info'   , ...
              'cleanup'};
     
-    [varargout{1:nargout}] = vlc(find(strcmpi(task, tasks))-1, varargin{:});
+    i = find(strcmpi(task, tasks))-1;
+    fprintf('Executing VLC operation #%d\n', i);
+    [varargout{1:nargout}] = vlc(i, varargin{:});
 
 end

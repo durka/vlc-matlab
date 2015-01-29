@@ -23,7 +23,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     
     mexAtExit(cleanup);
 
-    Verb verb = (Verb)mxGetPr(prhs[0])[0];
+    Verb verb = (Verb)(int)(mxGetPr(prhs[0])[0]);
     switch (verb) {
         case INIT:
             if (!check_args(nrhs, 1)) return;
@@ -93,6 +93,10 @@ libvlc_instance_t* init()
 {
     libvlc_instance_t *vlc = libvlc_new(0, NULL);
     instances.push_back(vlc);
+    
+    if (vlc == NULL) {
+        mexWarnMsgIdAndTxt("VLC:init:nullPointer", "VLC instance is NULL");
+    }
 
     return vlc;
 }
