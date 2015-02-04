@@ -174,6 +174,7 @@ vector<double> info(libvlc_media_player_t *player)
     vector<double> v;
     if (find(players.begin(), players.end(), player) != players.end()) {
         v.push_back(libvlc_media_player_get_fps(player));
+        v.push_back(libvlc_media_player_get_length(player));
     }
     return v;
 }
