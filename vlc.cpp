@@ -78,6 +78,9 @@ static void cleanup()
 {
     for (player_list::iterator i = players.begin(); i != players.end(); ++i)
     {
+        if (libvlc_media_player_is_playing(*i)) {
+            libvlc_media_player_stop(*i);
+        }
         libvlc_media_player_release(*i);
     }
     players.clear();
