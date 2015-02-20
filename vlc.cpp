@@ -16,6 +16,9 @@ vector<double> info(libvlc_media_player_t*);
 
 static instance_list instances;
 static player_list players;
+#ifdef __APPLE__
+static window_list windows;
+#endif
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
@@ -90,6 +93,13 @@ static void cleanup()
         libvlc_release(*i);
     }
     instances.clear();
+    
+#ifdef __APPLE__
+    for (window_list::iterator i = windows.begin(); i != windows.end(); ++i)
+    {
+        close_window(i->second);
+    }
+#endif
 }
 
 libvlc_instance_t* init()
@@ -118,11 +128,25 @@ void release(libvlc_instance_t *vlc)
 
 libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
 {
+    instance_list::iterator iter = find(instances.begin(), instances.end(), vlc);
+    if (iter == instances.end()) {
+        mexErrMsgIdAndTxt("VLC:release:invalidHandle", "Not a VLC instance");
+        return NULL;
+    }
+    
     libvlc_media_t *media = libvlc_media_new_path(vlc, filename.c_str());
     libvlc_media_player_t *player = libvlc_media_player_new_from_media(media);
     libvlc_media_release(media);
     
     players.push_back(player);
+    
+#ifdef __APPLE__
+    NSWindow *win;
+    NSView *view = create_window(&win, 100, 100, 720, 480);
+    windows[player] = win;
+    
+    libvlc_media_player_set_nsobject(player, view);
+#endif
     
     libvlc_media_player_play(player);
     while (!libvlc_media_player_is_playing(player));
@@ -133,11 +157,20 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
 
 void close(libvlc_media_player_t *player)
 {
+    
     player_list::iterator iter = find(players.begin(), players.end(), player);
     if (iter == players.end()) {
         mexErrMsgIdAndTxt("VLC:close:invalidHandle", "Not a VLC media player instance");
         return;
     }
+    
+#ifdef __APPLE__
+    window_list::iterator witer = windows.find(player);
+    if (witer != windows.end()) {
+        close_window(witer->second);
+        windows.erase(witer);
+    }
+#endif
 
     players.erase(iter);
     libvlc_media_player_release(player);

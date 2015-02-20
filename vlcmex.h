@@ -6,14 +6,26 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <map>
 #include <algorithm>
 using std::vector;
 using std::string;
 using std::list;
+using std::map;
 using std::find;
 
 typedef list<libvlc_instance_t*> instance_list;
 typedef list<libvlc_media_player_t*> player_list;
+
+#ifdef __APPLE__
+typedef void NSWindow;
+typedef void NSView;
+extern "C" {
+    NSView* create_window(NSWindow**, float, float, float, float);
+    void close_window(NSWindow*);
+}
+typedef map<libvlc_media_player_t*, NSWindow*> window_list;
+#endif
 
 bool check_args(int nrhs, int n);
 bool check_args(int nrhs, int m, int n);

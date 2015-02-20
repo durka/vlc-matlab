@@ -358,6 +358,7 @@
 				FA6E52921A78B7B500D5E3E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA6E52931A78B7B500D5E3E3 /* Build configuration list for PBXNativeTarget "MexWindowHelperTests" */ = {
 			isa = XCConfigurationList;
@@ -366,6 +367,7 @@
 				FA6E52951A78B7B500D5E3E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

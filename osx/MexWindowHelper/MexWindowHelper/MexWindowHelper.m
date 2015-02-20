@@ -31,4 +31,9 @@ NSView *create_window(NSWindow **pwin, float x, float y, float w, float h)
     return maxView;
 }
 
+void close_window(NSWindow *win)
+{
+    if (win) [win close];
+}
+
 @end
