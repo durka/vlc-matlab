@@ -21,7 +21,43 @@ The functionality is very limited. You can get a handle to a VLC object. Armed w
 
 That's it! I wrapped the functions I needed and no more. Feature requests (or pull requests!) welcome if you need more features.
 
-Planned features:
+## Planned features
 
 - Matlab facility for adaptively synchronizing a timer with the video
+- (Windows) Depend on already-installed VLC instead of bundling DLLs
+
+# Installation
+## Linux
+
+1. Install Matlab. Edit ```build_linux.sh``` (see comments there) to set the path to Matlab.
+2. Install VLC with development headers (for example, on Debian/Ubuntu ```sudo apt-get install libvlc-dev```).
+3. Run the build script: ```./build_linux.sh```.
+
+## Mac
+1. Install Matlab. Edit ```build_mac.sh``` (see comments there) to set the path to Matlab.
+2. Install VLC. Edit ```build_mac.sh``` (see comments) there) to set the path to VLC.
+3. Run the build script: ```./build_mac.sh```.
+
+## Windows
+1. Install Matlab.
+2. Run the build script: ```build_windows.bat```.
+
+# Example
+
+This Matlab example creates the VLC instance, loads a video file, plays it for a bit, then queries the frame count of where it stopped. The "cleanup" command closes the window and releases the handles.
+
+    >> vh = vlc_wrapper('init')
+    vh =
+      6.9432e-310
+    >> vp = vlc_wrapper('open', vh, 'movie.avi')
+    vp =
+      6.9432e-310
+    >> vlc_wrapper('play', vp)
+    >> vlc_wrapper('pause', vp)
+    >> vlc_wrapper('frame', vp)
+    ans =
+      6678
+    >> vlc_wrapper cleanup
+
+Note that the handles are returned as numbers, but they are to be treated as opaque objects! There is some crash protection -- if you pass a nonexistent file path or an invalid handle, the wrapper will refuse to do anything instead of freezing Matlab (hopefully).
 

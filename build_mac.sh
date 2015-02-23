@@ -2,8 +2,15 @@
 
 # MEX VLC controller - build script for Linux
 
+### START EDITING HERE
+
+# path to MATLAB app package
 MATLAB=~/Applications/MATLAB_R2014b.app
+
+# path to VLC app package
 VLC=/Applications/VLC.app
+
+### STOP EDITING HERE
 
 # change to directory that the script is in
 cd `dirname $0`
