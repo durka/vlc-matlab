@@ -136,13 +136,31 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
     
     libvlc_media_t *media = libvlc_media_new_path(vlc, filename.c_str());
     libvlc_media_player_t *player = libvlc_media_player_new_from_media(media);
-    libvlc_media_release(media);
     
     players.push_back(player);
     
+    libvlc_media_parse(media);
+    char *title = libvlc_media_get_meta(media, libvlc_meta_Title);
+    
 #ifdef __APPLE__
+    // get size
+    libvlc_media_track_t **tracks;
+    int count = libvlc_media_tracks_get(media, &tracks);
+    int w = 0, h = 0;
+    for (int i = 0; i < count; ++i) {
+        if (tracks[i]->i_type == libvlc_track_video) {
+            w = tracks[i]->video->i_width > w
+                    ? tracks[i]->video->i_width
+                    : w;
+            h = tracks[i]->video->i_height > h
+                    ? tracks[i]->video->i_height
+                    : h;
+        }
+    }
+    libvlc_media_tracks_release(tracks, count);
+    
     NSWindow *win;
-    NSView *view = create_window(&win, 100, 100, 720, 480);
+    NSView *view = create_window(&win, 100, 100, w, h, title);
     windows[player] = win;
     
     libvlc_media_player_set_nsobject(player, view);
@@ -152,6 +170,7 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
     while (!libvlc_media_player_is_playing(player));
     libvlc_media_player_pause(player);
     
+    libvlc_media_release(media);
     return player;
 }
 

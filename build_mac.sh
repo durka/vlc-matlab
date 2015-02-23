@@ -12,7 +12,8 @@ rm vlc.mex*
 
 # build XCode
 cd osx/MexWindowHelper
-xcodebuild
+xcodebuild clean
+xcodebuild build
 cd ../..
 
 # build MEX

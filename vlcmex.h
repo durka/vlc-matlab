@@ -21,7 +21,7 @@ typedef list<libvlc_media_player_t*> player_list;
 typedef void NSWindow;
 typedef void NSView;
 extern "C" {
-    NSView* create_window(NSWindow**, float, float, float, float);
+    NSView* create_window(NSWindow**, float, float, float, float, char*);
     void close_window(NSWindow*);
 }
 typedef map<libvlc_media_player_t*, NSWindow*> window_list;

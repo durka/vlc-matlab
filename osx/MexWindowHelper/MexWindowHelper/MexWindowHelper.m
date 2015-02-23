@@ -10,18 +10,21 @@
 
 @implementation MexWindowHelper
 
-NSView *create_window(NSWindow **pwin, float x, float y, float w, float h)
+NSView *create_window(NSWindow **pwin, float x, float y, float w, float h, char *title)
 {
     [NSApplication sharedApplication];
     
     *pwin = [[NSWindow alloc] initWithContentRect:NSMakeRect(x, y, w, h)
-                                       styleMask:NSTitledWindowMask
-                                         backing:NSBackingStoreBuffered
-                                           defer:YES];
+                                        styleMask:NSTitledWindowMask
+                                          backing:NSBackingStoreBuffered
+                                            defer:YES];
     
     NSWindow *win = *pwin;
     
-    [win setTitle:@"MEX window"];
+    NSString *nstitle = title
+        ? [NSString stringWithCString:title encoding:NSUTF8StringEncoding]
+        : @"VLC-Matlab";
+    [win setTitle:nstitle];
     [win makeKeyAndOrderFront:nil];
     
     CGRect winRect = [[win contentView] bounds];

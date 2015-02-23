@@ -12,7 +12,7 @@
 
 @interface MexWindowHelper : NSObject
 
-NSView *create_window(NSWindow **pwin, float x, float y, float w, float h);
+NSView *create_window(NSWindow **pwin, float x, float y, float w, float h, char *title);
 void close_window(NSWindow *win);
 
 @end
