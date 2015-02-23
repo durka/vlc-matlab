@@ -7,7 +7,7 @@ I needed real time video playback, synchronized with other data visualization ha
 # Where does it work?
 The wrapper has been tested and works on at least these platforms:
 
-- Linux (Ubuntu 14.04)
+- Linux (Ubuntu 12.04)
 - Mac OS X (10.9.5)
 - Windows 7, 8
 
