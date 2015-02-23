@@ -130,12 +130,22 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
 {
     instance_list::iterator iter = find(instances.begin(), instances.end(), vlc);
     if (iter == instances.end()) {
-        mexErrMsgIdAndTxt("VLC:release:invalidHandle", "Not a VLC instance");
+        mexErrMsgIdAndTxt("VLC:open:invalidHandle", "Not a VLC instance");
+        return NULL;
+    }
+
+    struct stat statbuf;
+    if (stat(filename.c_str(), &statbuf) == -1) {
+        mexErrMsgIdAndTxt("VLC:open:badFile", "Could not stat video file: %s", strerror(errno));
         return NULL;
     }
     
     libvlc_media_t *media = libvlc_media_new_path(vlc, filename.c_str());
     libvlc_media_player_t *player = libvlc_media_player_new_from_media(media);
+    if (!media || !player) {
+        mexErrMsgIdAndTxt("VLC:open:errorOpening", "Could not open video file");
+        return NULL;
+    }
     
     players.push_back(player);
     
