@@ -2,6 +2,8 @@
 
 # MEX VLC controller - build script for Linux
 
+MATLAB=/usr/local/Matlab/R2014a
+
 # change to directory that the script is in
 cd `dirname $0`
 
@@ -9,5 +11,5 @@ cd `dirname $0`
 rm vlc.mex*
 
 # build
-mex vlc.cpp vlcmex.cpp -g -lvlc
+$MATLAB/bin/mex vlc.cpp vlcmex.cpp -g -lvlc
 
