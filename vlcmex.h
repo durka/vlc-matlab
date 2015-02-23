@@ -9,7 +9,7 @@
 #include <map>
 #include <algorithm>
 #include <sys/stat.h>
-#include <stdio.h>
+#include <string.h>
 #include <errno.h>
 using std::vector;
 using std::string;
