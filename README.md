@@ -46,6 +46,7 @@ That's it! I wrapped the functions I needed and no more. Feature requests (or pu
 
 This Matlab example creates the VLC instance, loads a video file, plays it for a bit, then queries the frame count of where it stopped. The "cleanup" command closes the window and releases the handles.
 
+    >> vlc_setup
     >> vh = vlc_wrapper('init')
     vh =
       6.9432e-310
