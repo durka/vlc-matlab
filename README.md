@@ -38,7 +38,7 @@ Download the latest release from [here](https://github.com/durka/vlc-matlab/rele
 
 ## Mac
 1. Install Matlab. Edit ```build_mac.sh``` (see comments there) to set the path to Matlab.
-2. Install VLC. Edit ```build_mac.sh``` (see comments) there) to set the path to VLC.
+2. Install VLC. Edit ```build_mac.sh``` (see comments there) to set the path to VLC.
 3. Run the build script: ```./build_mac.sh```.
 
 ## Windows
