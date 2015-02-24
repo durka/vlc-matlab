@@ -27,6 +27,9 @@ That's it! I wrapped the functions I needed and no more. Feature requests (or pu
 - (Windows) Depend on already-installed VLC instead of bundling DLLs
 
 # Installation
+
+Download the latest release from [here](https://github.com/durka/vlc-matlab/releases) and extract it somewhere. You'll want to add the extracted folder to your Matlab path.
+
 ## Linux
 
 1. Install Matlab. Edit ```build_linux.sh``` (see comments there) to set the path to Matlab.
