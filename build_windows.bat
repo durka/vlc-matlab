@@ -7,5 +7,5 @@ cd /d %0\..
 del vlc.mex*
 
 @rem build
-mex vlc.cpp vlcmex.cpp -g -Iwin\include -L%CD%\win -lvlc
+mex -outdir %CD% vlc.cpp vlcmex.cpp -g -I%CD%\win\include -L%CD%\win -lvlc
 
