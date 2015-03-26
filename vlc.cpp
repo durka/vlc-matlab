@@ -156,7 +156,7 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
     // get size
     libvlc_media_track_t **tracks;
     int count = libvlc_media_tracks_get(media, &tracks);
-    int w = 0, h = 0;
+    int w = 720, h = 480;
     for (int i = 0; i < count; ++i) {
         if (tracks[i]->i_type == libvlc_track_video) {
             w = tracks[i]->video->i_width > w
@@ -168,7 +168,8 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
         }
     }
     libvlc_media_tracks_release(tracks, count);
-    
+#endif
+#ifdef __APPLE__    
     NSWindow *win;
     NSView *view = create_window(&win, 100, 100, w, h, title);
     windows[player] = win;
