@@ -21,6 +21,7 @@ typedef list<libvlc_instance_t*> instance_list;
 typedef list<libvlc_media_player_t*> player_list;
 
 #ifdef __APPLE__
+#define OWN_WINDOW
 typedef void NSWindow;
 typedef void NSView;
 extern "C" {
@@ -28,6 +29,15 @@ extern "C" {
     void close_window(NSWindow*);
 }
 typedef map<libvlc_media_player_t*, NSWindow*> window_list;
+#endif
+#ifdef _WIN32
+#define OWN_WINDOW
+typedef void* HWND;
+typedef map<libvlc_media_player_t*, HWND> window_list;
+extern "C" {
+	HWND create_window(int, int, int, int, const char*);
+	void close_window(HWND);
+}
 #endif
 
 bool check_args(int nrhs, int n);

@@ -16,7 +16,7 @@ vector<double> info(libvlc_media_player_t*);
 
 static instance_list instances;
 static player_list players;
-#ifdef __APPLE__
+#ifdef OWN_WINDOW
 static window_list windows;
 #endif
 
@@ -94,7 +94,7 @@ static void cleanup()
     }
     instances.clear();
     
-#ifdef __APPLE__
+#ifdef OWN_WINDOW
     for (window_list::iterator i = windows.begin(); i != windows.end(); ++i)
     {
         close_window(i->second);
@@ -175,6 +175,10 @@ libvlc_media_player_t* open(libvlc_instance_t *vlc, string filename)
     
     libvlc_media_player_set_nsobject(player, view);
 #endif
+#ifdef _WIN32
+	windows[player] = create_window(100, 100, 720, 480, title);
+	libvlc_media_player_set_hwnd(player, windows[player]);
+#endif
     
     libvlc_media_player_play(player);
     while (!libvlc_media_player_is_playing(player));
@@ -193,7 +197,7 @@ void close(libvlc_media_player_t *player)
         return;
     }
     
-#ifdef __APPLE__
+#ifdef OWN_WINDOW
     window_list::iterator witer = windows.find(player);
     if (witer != windows.end()) {
         close_window(witer->second);
