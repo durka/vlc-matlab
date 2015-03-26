@@ -4,7 +4,6 @@
 #pragma comment(lib,"user32.lib")
 
 const char g_szClassName[] = "vlc-matlab";
-HINSTANCE g_hInstance;
 
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -35,7 +34,7 @@ void real_create_window(HWND *out, int x, int y, int w, int h, const char *title
     wc.lpfnWndProc   = WndProc;
     wc.cbClsExtra    = 0;
     wc.cbWndExtra    = 0;
-    wc.hInstance     = g_hInstance;
+    wc.hInstance     = NULL;
     wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
@@ -58,7 +57,7 @@ void real_create_window(HWND *out, int x, int y, int w, int h, const char *title
         title == NULL ? "VLC-Matlab" : title,
         WS_OVERLAPPEDWINDOW,
         x, y, w, h,
-        NULL, NULL, g_hInstance, NULL);
+        NULL, NULL, NULL, NULL);
 
     if(hwnd == NULL)
     {
@@ -81,9 +80,16 @@ void real_create_window(HWND *out, int x, int y, int w, int h, const char *title
     }
 }
 
-DWORD WINAPI ThreadFunc(LPVOID param)
+typedef struct {
+	int x, y, w, h;
+	const char *title;
+	HWND *hwnd;
+} ThreadParams;
+
+DWORD WINAPI ThreadFunc(LPVOID vparam)
 {
-	real_create_window(param, CW_USEDEFAULT, CW_USEDEFAULT, 720, 480, NULL);
+	ThreadParams *param = vparam;
+	real_create_window(param->hwnd, param->x, param->y, param->w, param->h, param->title);
 	
 	return 0;
 }
@@ -94,7 +100,8 @@ HWND create_window(int x, int y, int w, int h, const char *title)
 	HANDLE thread;
 	HWND hwnd;
 	
-	thread = CreateThread(NULL, 0, &ThreadFunc, &hwnd, 0, NULL);
+	ThreadParams param = {x, y, w, h, title, &hwnd};
+	thread = CreateThread(NULL, 0, &ThreadFunc, &param, 0, NULL);
 	while (hwnd == NULL);
 	
 	return hwnd;
@@ -129,7 +136,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hwnd;
-	g_hInstance = hInstance;
 	
 	// get a console (FIXME remove this)
 	SetStdOutToNewConsole();
