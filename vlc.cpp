@@ -10,7 +10,7 @@ libvlc_media_player_t* open(libvlc_instance_t*, string);
 void close(libvlc_media_player_t*);
 double frame(libvlc_media_player_t*);
 double frame(libvlc_media_player_t*, double);
-void play(libvlc_media_player_t*);
+void play(libvlc_media_player_t*, float);
 void pause(libvlc_media_player_t*);
 vector<double> info(libvlc_media_player_t*);
 
@@ -56,8 +56,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
             }
             break;
         case PLAY:
-            if (!check_args(nrhs, 2)) return;
-            play(unpack_pointer(libvlc_media_player_t, prhs[1]));
+            if (!check_args(nrhs, 3)) return;
+            play(unpack_pointer(libvlc_media_player_t, prhs[1]), mxGetPr(prhs[2])[0]);
             break;
         case PAUSE:
             if (!check_args(nrhs, 2)) return;
@@ -227,10 +227,13 @@ double frame(libvlc_media_player_t *player)
     return -1;
 }
 
-void play(libvlc_media_player_t *player)
+void play(libvlc_media_player_t *player, float rate)
 {
     if (find(players.begin(), players.end(), player) != players.end())
+    {
+        libvlc_media_player_set_rate(player, rate);
         libvlc_media_player_play(player);
+    }
 }
 
 void pause(libvlc_media_player_t *player)
@@ -244,7 +247,8 @@ vector<double> info(libvlc_media_player_t *player)
     vector<double> v;
     if (find(players.begin(), players.end(), player) != players.end()) {
         v.push_back(libvlc_media_player_get_fps(player));
-        v.push_back(libvlc_media_player_get_length(player));
+        
+        v.push_back(libvlc_media_get_duration(libvlc_media_player_get_media(player)));
     }
     return v;
 }
