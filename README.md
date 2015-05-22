@@ -56,7 +56,7 @@ This Matlab example creates the VLC instance, loads a video file, plays it for a
     >> vp = vlc_wrapper('open', vh, 'movie.avi')
     vp =
       6.9432e-310
-    >> vlc_wrapper('play', vp)
+    >> vlc_wrapper('play', vp, 1.0) % change 1.0 to 0.5 for slow-mo
     >> vlc_wrapper('pause', vp)
     >> vlc_wrapper('frame', vp)
     ans =
