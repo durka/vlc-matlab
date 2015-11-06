@@ -8,7 +8,7 @@
 MATLAB=~/Applications/MATLAB_R2014b.app
 
 # path to VLC app package
-VLC=/Applications/VLC.app
+VLC=~/Applications/VLC.app
 
 ### STOP EDITING HERE
 
@@ -23,6 +23,9 @@ cd osx/MexWindowHelper
 xcodebuild clean
 xcodebuild build
 cd ../..
+
+# hack to work around VLC bug
+echo "#define _VLC_ \"$VLC\"" >apple_workaround.h
 
 # build MEX
 $MATLAB/bin/mex vlc.cpp vlcmex.cpp -g -lvlc -lMexWindowHelper -I$VLC/Contents/MacOS/include -L$VLC/Contents/MacOS/lib -Losx/MexWindowHelper/build/Release

@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 using std::vector;
 using std::string;
 using std::list;

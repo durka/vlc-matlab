@@ -104,6 +104,10 @@ static void cleanup()
 
 libvlc_instance_t* init()
 {
+#ifdef __APPLE__
+#include "apple_workaround.h"
+    setenv("VLC_PLUGIN_PATH", _VLC_ "/Contents/MacOS/plugins", 1);
+#endif
     libvlc_instance_t *vlc = libvlc_new(0, NULL);
     instances.push_back(vlc);
     
