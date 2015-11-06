@@ -15,6 +15,7 @@ Software dependencies are (obviously) Matlab and VLC:
 
 - Matlab (tested on versions 2014a and 2014b)
 - VLC (tested using version 2.1.5)
+    - *vlc-matlab has been tested NOT to work on newer versions, notably VLC 2.2.1. If in doubt, downgrade to 2.1.5!* Old versions available [here](http://download.videolan.org/pub/videolan/vlc/).
 
 # What can the wrapper do?
 The functionality is very limited. You can get a handle to a VLC object. Armed with this handle, you can open a video file (which returns another handle to the media). A window is automatically created. With the media handle you can get basic information (frame rate and length), play and pause the media, seek to a specific point, or query the current position.
