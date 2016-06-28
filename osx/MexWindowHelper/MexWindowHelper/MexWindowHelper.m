@@ -8,16 +8,18 @@
 
 #import "MexWindowHelper.h"
 
+BOOL closing = NO;
+
 @implementation MexWindowHelper
 
 NSView *create_window(NSWindow **pwin, float x, float y, float w, float h, char *title)
 {
     [NSApplication sharedApplication];
     
-    *pwin = [[NSWindow alloc] initWithContentRect:NSMakeRect(x, y, w, h)
-                                        styleMask:NSTitledWindowMask
-                                          backing:NSBackingStoreBuffered
-                                            defer:YES];
+    *pwin = [[MexWindow alloc] initWithContentRect:NSMakeRect(x, y, w, h)
+                                         styleMask:NSTitledWindowMask
+                                           backing:NSBackingStoreBuffered
+                                             defer:YES];
     
     NSWindow *win = *pwin;
     
@@ -36,7 +38,22 @@ NSView *create_window(NSWindow **pwin, float x, float y, float w, float h, char 
 
 void close_window(NSWindow *win)
 {
-    if (win) [win close];
+    if (win)
+    {
+        closing = YES;
+        [win close];
+        closing = NO;
+    }
 }
 
 @end
+
+@implementation MexWindow
+
+- (BOOL)windowShouldClose:(id)sender
+{
+    return closing;
+}
+
+@end
+

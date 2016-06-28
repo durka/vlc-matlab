@@ -16,3 +16,10 @@ NSView *create_window(NSWindow **pwin, float x, float y, float w, float h, char 
 void close_window(NSWindow *win);
 
 @end
+
+@interface MexWindow : NSWindow <NSWindowDelegate>
+
+- (BOOL)windowShouldClose:(id)sender;
+
+@end
+
