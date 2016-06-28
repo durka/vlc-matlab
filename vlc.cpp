@@ -99,6 +99,7 @@ static void cleanup()
     {
         close_window(i->second);
     }
+    windows.clear();
 #endif
 }
 
