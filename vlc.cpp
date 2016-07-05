@@ -24,7 +24,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
     if (!check_args(nrhs, 1, 3)) return;
     
-    mexAtExit(cleanup);
+    //mexAtExit(cleanup);
 
     Verb verb = (Verb)(int)(mxGetPr(prhs[0])[0]);
     switch (verb) {
